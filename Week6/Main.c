@@ -6,7 +6,7 @@ typedef char* String;
 
 void quicksort(String* a, int first, int last) {
     if (first < last) {
-        // Pivot is the last element
+        // Pivot is the last element  faf 
         String pivot = a[last];
         int i = first;
         int j = last - 1;
