@@ -33,7 +33,6 @@ int main() {
 
     fclose(file);  // Close the file
 
-    // Your code to interact with the graph would go here
 
     // Free memory
     for (int i = 0; i < G.V; i++) {
