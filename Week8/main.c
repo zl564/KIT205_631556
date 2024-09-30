@@ -2,29 +2,40 @@
 #include <stdlib.h>
 #include "graph.h"
 
-// Function to add an edge to the graph
+// Function to add a new edge to the graph
 void add_edge(Graph* self, int from, int to, int w) {
-    EdgeNodePtr new_node = (EdgeNodePtr)malloc(sizeof(struct edgeNode));
-    new_node->edge.to_vertex = to;
-    new_node->edge.weight = w;
-    new_node->next = self->edges[from].head;
-    self->edges[from].head = new_node;
+    Edge newEdge = { to, w };
+    insert_at_front(&self->edges[from], newEdge);
+}
+
+// Function to insert at the front of an edge list
+void insert_at_front(EdgeList* list, Edge edge) {
+    EdgeNodePtr newNode = (EdgeNodePtr)malloc(sizeof(struct edgeNode));
+    newNode->edge = edge;
+    newNode->next = list->head;
+    list->head = newNode;
 }
 
 int main() {
-    Graph G;
     FILE* file = fopen("input.txt", "r");
     if (file == NULL) {
         printf("Error opening file!\n");
         return 1;
     }
 
+    // Read the number of vertices
+    Graph G;
     fscanf(file, "%d", &G.V);
+
+    // Allocate memory for edges array
     G.edges = (EdgeList*)malloc(G.V * sizeof(EdgeList));
+
+    // Initialize each edge list
     for (int v = 0; v < G.V; v++) {
         G.edges[v].head = NULL;
     }
 
+    // Read and add each edge from the file
     int from, to, weight;
     while (fscanf(file, "%d,%d,%d", &from, &to, &weight) == 3) {
         add_edge(&G, from, to, weight);
